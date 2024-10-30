@@ -15,7 +15,7 @@ services:
       - ${MAGEAI_PORT}:6789
     volumes:
       - .:/home/src/
-      - ../${MAGE_DATA:/home/src/${MAGE_DATA}
+      - ../${MAGE_DATA}:/home/src/${MAGE_DATA}
       - ../${PROJECT_NAME}:/home/src/${PROJECT_NAME}
     restart: on-failure:5
 
