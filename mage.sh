@@ -41,15 +41,27 @@ if [ "$OPTION" == "run" ]; then
     # Option run: Cloner le projet
     echo "Clonage du projet depuis $GIT_REPO..."
     git clone "$GIT_REPO"
-
+	
     # Copier le fichier .env-dev dans le dossier cloné
+    # Vérifie si le dossier "toto" existe
+    if [ ! -d $PROJECT_DIR ]; then
+        # Crée le dossier s'il n'existe pas
+        mkdir $PROJECT_DIR
+        echo "Le dossier $PROJECT_DIR a été créé."
+
+        mkdir $DIR_NOT_DELETE
+        echo "Le dossier $DIR_NOT_DELETE a été créé."
+    else
+        echo "Le dossier existe déjà."
+    fi
+
     echo "Copie du fichier .env..."
     cp .env $PROJECT_DIR/.env
 
     # Démarrer les services avec Docker Compose
     echo "Démarrage des services avec Docker Compose..."
     cd $PROJECT_DIR
-    docker-compose up -d
+    docker compose up -d
 
     # Afficher les détails du conteneur
     echo "Détails du conteneur $CONTAINER_NAME :"
@@ -98,8 +110,8 @@ elif [ "$OPTION" == "update-env" ]; then
         # Redémarrer les services pour appliquer les nouveaux changements
         echo "Redémarrage des services pour intégrer les changements..."
         cd $PROJECT_DIR
-        docker-compose down
-        docker-compose up -d
+        docker compose down
+        docker compose up -d
         
         echo "Les services ont été redémarrés avec les nouvelles variables d'environnement."
     else
