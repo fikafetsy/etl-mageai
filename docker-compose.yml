@@ -1,10 +1,10 @@
-version: '3'
 services:
   magic:
     image: mageai/mageai:${MAGE_VERSION}
     command: mage start ${PROJECT_NAME}
     env_file:
       - .env
+    container_name: mageai-${DOCKER_ENVIRONNEMENT}
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,7 +12,10 @@ services:
       USER_CODE_PATH: /home/src/${PROJECT_NAME}
       ENV: ${ENV}
     ports:
-      - 6789:6789
+      - ${MAGEAI_PORT}:6789
     volumes:
       - .:/home/src/
+      - ../${MAGE_DATA:/home/src/${MAGE_DATA}
+      - ../${PROJECT_NAME}:/home/src/${PROJECT_NAME}
     restart: on-failure:5
+    
