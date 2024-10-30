@@ -18,4 +18,13 @@ services:
       - ../${MAGE_DATA:/home/src/${MAGE_DATA}
       - ../${PROJECT_NAME}:/home/src/${PROJECT_NAME}
     restart: on-failure:5
-    
+
+  copy_data:
+    image: alpine:latest
+    container_name: copy_data-${DOCKER_ENVIRONNEMENT}
+    volumes:
+      - ./${PROJECT_NAME}:/src/${PROJECT_NAME}
+      - ./${MAGE_DATA}:/src/${MAGE_DATA}
+      - ../${PROJECT_NAME}:/dest/${PROJECT_NAME}
+      - ../${MAGE_DATA}:/dest/${MAGE_DATA}
+    entrypoint: /bin/sh -c "cp -r /src/${PROJECT_NAME}* /dest/${PROJECT_NAME}/ && cp -r /src/${MAGE_DATA}/* /dest/${MAGE_DATA}/"
